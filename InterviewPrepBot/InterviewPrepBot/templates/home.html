@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Interview Bot</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <div class="logo">InterviewPrepBot</div>
+      <nav>
+        <ul>
+        
+                <li><a href="/">Home</a></li>
+                <li><a href="/login">Login/Register</a></li>
+                <li><a href="/login">start quiz</a></li>
+                <li><a href="/dashboard">Progress Bar</a></li>
+                
+            </ul>
+    
+      </nav>
+      
+  </header>
+
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Master Your Interview:<br><span>Elevate Your Skills with Our AI Interview Bot</span></h1>
+      <p>
+        Prepare for your interviews with confidence using our AI-powered mock interview bot. 
+        Practice your  skills, receive instant feedback, and fine-tune your interview performance with tailored questions and insights.
+      </p>
+    </div>
+    <div class="hero-image">
+      <img src="{{ url_for('static', filename='ai-bot-image.png') }}" alt="AI Interview Bot">
+    </div>
+  </section>
+</body>
+</html>

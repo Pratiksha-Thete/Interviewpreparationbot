@@ -1,0 +1,79 @@
+
+/* General Page Styling */
+body {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Home Page */
+.home-container {
+    width: 50%;
+    margin: auto;
+    padding: 30px;
+    text-align: center;
+    margin-top: 100px;
+}
+
+.btn {
+    background: #ff6b6b;
+    color: white;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #ff4c4c;
+}
+
+/* Container Styling */
+.container {
+    width: 60%;
+    margin: auto;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    margin-top: 50px;
+}
+
+select, button {
+    padding: 12px;
+    font-size: 16px;
+    margin: 10px;
+    border-radius: 8px;
+    border: none;
+}
+
+select {
+    background: #fff;
+    color: #333;
+}
+
+button {
+    background: #ff6b6b;
+    color: white;
+}
+
+button:hover {
+    background: #ff4c4c;
+}
+
+#questions-container div {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .container, .home-container {
+        width: 90%;
+    }
+}

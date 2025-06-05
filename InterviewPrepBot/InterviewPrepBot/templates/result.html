@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Result</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* Blue gradient */
+            display: flex;
+            justify-content: center;
+            padding: 50px 20px; /* Adds top and bottom space */
+            min-height: 100vh;
+            margin: 0;
+            color: #fff;
+        }
+
+        .result-container {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 800px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 22px;
+            margin-bottom: 30px;
+        }
+
+        a {
+            text-decoration: none;
+            padding: 12px 25px;
+            background-color: #2ed573;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        a:hover {
+            background-color: #20bf6b;
+        }
+
+        .answer-list {
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .answer-item {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+
+        .correct {
+            color: #2ed573; /* Green color for correct answers */
+            font-weight: bold;
+        }
+
+        .wrong {
+            color: #ff4757; /* Red color for wrong answers */
+            font-weight: bold;
+        }
+
+        .correct-answer {
+            color: #2ed573; /* Green color for correct answers */
+            font-weight: bold;
+        }
+
+        .correct-word,
+        .correct-symbol {
+            color: white; /* White for brackets and "Correct:" */
+            font-weight: bold;
+        }
+        .quiz-button {
+            text-decoration: none;
+            padding: 12px 25px;
+            background-color: #2ed573;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            margin: 10px;
+        }
+        
+        .quiz-button:hover {
+            background-color: #20bf6b;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h1>Quiz Complete! 🎉</h1>
+        <p>Your Score: <strong>{{ score }} / {{ total }}</strong></p>
+
+        <div class="answer-list">
+            {% for item in answers %}
+                <div class="answer-item">
+                    <strong>Q{{ loop.index }}:</strong> {{ item.question }}<br>
+                    Your Answer:
+                    <span class="{{ 'correct' if item.is_correct else 'wrong' }}">
+                        {{ item.selected }}
+                        {% if not item.is_correct %}
+                            (<span class="correct-word">Correct</span><span class="correct-symbol">:</span> <span class="correct-answer">{{ item.correct }}</span>)
+                        {% endif %}
+                    </span>
+                </div>
+            {% endfor %}
+        </div>
+
+        <a href="{{ url_for('index') }}">Try Another Quiz</a>
+        <a href="{{ url_for('dashboard') }}">Go to Dashboard</a>
+        <a href="{{ url_for('home') }}">Go to Home</a>
+    </div>
+</body>
+</html>

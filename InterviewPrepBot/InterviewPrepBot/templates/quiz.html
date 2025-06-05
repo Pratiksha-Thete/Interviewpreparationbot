@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Your existing styles here (unchanged) */
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url("/static/backgrounds/shared.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(55, 172, 208, 0.662);
+            z-index: 0;
+        }
+        .quiz-container {
+            background-color: rgba(15, 72, 88, 0.6);
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            width: 90%;
+            max-width: 600px;
+            z-index: 1;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        p { font-size: 18px; margin-bottom: 20px; }
+        label {
+            display: block;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+            accent-color: #ffc107;
+        }
+        button {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        button:hover { background-color: #ff3b3b; }
+        .timer {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ffcc00;
+        }
+        @media screen and (max-width: 600px) {
+            .quiz-container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h2>Question {{ index }}</h2>
+
+        <!-- Timer display -->
+        <div id="timer" class="timer">Time Remaining: 30s</div>
+
+        <form method="POST">
+            <p id="questionText">{{ question.question }}</p>
+            {% for option in question.options %}
+                <label>
+                    <input type="radio" name="option" value="{{ option }}" required> {{ option }}
+                </label>
+            {% endfor %}
+
+            <div style="text-align: center;">
+                <button type="submit">Submit</button>
+                <br><br>
+                <button type="button" onclick="speakQuestion()">🔊 Speak Question</button>
+                <button type="button" onclick="voiceAnswer()">🎙️ Answer by Voice</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Timer logic
+        let timeLeft = 30;
+        const timerElement = document.getElementById('timer');
+        const countdown = setInterval(function() {
+            timeLeft--;
+            timerElement.textContent = 'Time Remaining: ' + timeLeft + 's';
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                timerElement.textContent = 'Time Up!';
+                document.querySelector('form').submit();
+            }
+        }, 1000);
+
+        // 🔊 Speak the question aloud
+        function speakQuestion() {
+            const questionText = document.getElementById('questionText').innerText;
+            const utterance = new SpeechSynthesisUtterance(questionText);
+            speechSynthesis.speak(utterance);
+        }
+
+        // 🎙️ Recognize spoken answer and auto-select it
+        function voiceAnswer() {
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'en-US';
+            recognition.start();
+
+            recognition.onresult = function(event) {
+                const spoken = event.results[0][0].transcript.toLowerCase();
+                const options = document.getElementsByName('option');
+                let matched = false;
+
+                for (let opt of options) {
+                    if (spoken.includes(opt.value.toLowerCase())) {
+                        opt.checked = true;
+                        matched = true;
+                        break;
+                    }
+                }
+
+                if (!matched) {
+                    alert("Could not match your voice input with any option.");
+                }
+            };
+
+            recognition.onerror = function(event) {
+                alert("Speech recognition error: " + event.error);
+            };
+        }
+    </script>
+</body>
+</html>
